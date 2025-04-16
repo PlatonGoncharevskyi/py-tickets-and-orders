@@ -1,8 +1,8 @@
 from django.db import transaction
-from django.contrib.auth.models import User
 from db.models import Order, Ticket
 from datetime import datetime
-
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 def create_order(tickets: list, username: str, date: str = None):
     try:

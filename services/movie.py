@@ -24,28 +24,20 @@ def get_movies(
 
 def get_movie_by_id(movie_id: int) -> Movie:
     return Movie.objects.get(id=movie_id)
-
-def create_movie(
-    movie_title: str,
-    movie_description: str,
-    genres_ids: list = None,
-    actors_ids: list = None,
-) -> Movie:
+@transaction.atomic
+def create_movie(movie_title: str, movie_description: str, genres_ids: list = None, actors_ids: list = None) -> Movie:
     try:
-        # Start a transaction block
-        with transaction.atomic():
-            # Create the movie
-            movie = Movie.objects.create(
-                title=movie_title,
-                description=movie_description,
-            )
+        movie = Movie.objects.create(
+            title=movie_title,
+            description=movie_description,
+        )
 
-            if genres_ids:
-                movie.genres.set(genres_ids)
-            if actors_ids:
-                movie.actors.set(actors_ids)
+        if genres_ids:
+            movie.genres.set(genres_ids)
+        if actors_ids:
+            movie.actors.set(actors_ids)
 
-            return movie
+        return movie
     except Exception as e:
         print(f"Error creating movie: {e}")
         return None
