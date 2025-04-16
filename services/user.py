@@ -36,7 +36,7 @@ def update_user(
         last_name: str = None
 ) -> get_user_model():
     try:
-        user = User.objects.get(id=user_id)
+        user = get_user_model().objects.get(id=user_id)
 
         if username:
             user.username = username
